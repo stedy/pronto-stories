@@ -1,4 +1,4 @@
-library(RJSONIO)
+library(RSQLite)
 library(dplyr)
 
 stations <- read.csv("data/2015_station_data.csv")
@@ -28,15 +28,17 @@ trips.summary <-
   trips.summary %>%
   merge(stations, by.x="start", by.y="terminal") %>%
   rename(station.start=name) %>%
-  select(route.id, ntrips, mean.time, routefraction, routerank,    
+  select(route.id, ntrips, mean.time, routefraction, routerank,
          station.start, end)
 
 trips.summary <-
   trips.summary %>%
   merge(stations, by.x="end", by.y="terminal") %>%
   rename(station.end=name) %>%
-  select(route.id, ntrips, mean.time, routefraction, routerank,    
+  select(route.id, ntrips, mean.time, routefraction, routerank,
          station.start, station.end)
-  
-trips.summary.json <- toJSON(trips.summary)
-cat(trips.summary.json, file = "data/trips_summary.json")
+
+conn <- dbConnect(SQLite(), dbname = "pronto.db")
+dbSendQuery(conn, "DROP TABLE IF EXISTS Trips");
+dbWriteTable(conn, "Trips", trips.summary)
+dbDisconnect(conn)
