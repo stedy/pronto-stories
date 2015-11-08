@@ -1,0 +1,31 @@
+body {
+  margin: 20;
+}
+
+#map {
+  width: 50%;
+  height: 80%;
+}
+
+path {
+  fill: yellow;
+  stroke-width: 2px;
+  stroke: red;
+  stroke-opacity: 1;
+}
+
+.waypoints {
+  fill: black;
+  opacity: 0;
+}
+
+.drinks {
+  stroke: black;
+  fill: red;
+}
+
+.lineConnect {
+  fill: none;
+  stroke: black;
+  opacity: 1;
+}
