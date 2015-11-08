@@ -31,12 +31,10 @@ def init_db():
             db.cursor().executescript(f.read())
         db.commit()
 
-
 def get_db():
     if not hasattr(g, 'sqlite_db'):
         g.sqlite_db = connect_db()
     return g.sqlite_db
-
 
 @app.teardown_appcontext
 def close_db(error):
@@ -53,15 +51,14 @@ def show_entries():
 @app.route('/get_map', methods=['GET', 'POST'])
 def get_map():
     db = get_db()
-    cur = db.execute("""SELECT station_start, station_end FROM Trips WHERE
-            start = ? AND end = ?""",
+    cur = db.execute("""SELECT station_start, station_end, ntrips, routerank
+                        FROM Trips WHERE start = ? AND end = ?""",
             [request.form['start'], request.form['end']])
     entries = cur.fetchall()
     route = request.form['start'] +'_'+ request.form['end']
     infile = 'route' + route + '.geojson'
     return render_template('map.html', entries=entries, route=route,
             infile=infile)
-    
 
 if __name__ == '__main__':
     app.run()
