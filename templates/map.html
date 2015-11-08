@@ -23,8 +23,8 @@
 <body>
   <div id='demo' class='col-xs-6'>
     {% for entry in entries %}
-    {{ entry.station_start }}
-    {{ entry.station_end }}
+    Trip starting at {{ entry.station_start }} and ending at {{ entry.station_end }}
+    Total number of riders = {{ entry.ntrips }} which makes it the {{ entry.routerank }} most popular route.
     {% endfor %}
 
   </div>
