@@ -1,0 +1,18 @@
+<!doctype html>
+<title>Pronto Stories</title>
+<form action="{{ url_for('get_map') }}" method=post class=addstudy>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<div class="page">
+<select name=start>
+{% for entry in entries %}
+  <option value= "{{entry.start}}">{{entry.start}}</option>
+{% endfor %}
+</select>
+<select name=end>
+{% for entry in entries %}
+  <option value= "{{ entry.end }}">{{entry.end}}</option>
+{% endfor %}
+</select>
+<td><input type=submit value=Submit>
+</form>
+
