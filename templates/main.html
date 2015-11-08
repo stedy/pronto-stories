@@ -2,8 +2,36 @@
 <title>Pronto Stories</title>
 <form action="{{ url_for('get_map') }}" method=post class=addstudy>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-<div class="page">
-<select name=start>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+<script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+<script src={{ url_for('static', filename='stations.js') }}></script>
+
+<nav class="navbar navbar-custom navbar-fixed-top">
+  <div class="container">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+    <span class="sr-only">Toggle navigation</span>
+
+    <span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" style="padding: 2px 0 0 0px;" href="#"><img src="http://www.prontocycleshare.com/assets/images/logos/logo.png" /></a>
+</div>
+<div id="navbar" class="collapse navbar-collapse">
+<ul class="nav navbar-nav">
+<li class="active" style="font-size:42px;" ><a href="#">STORIES</a></li>
+</ul>
+</div><!--/.nav-collapse -->
+</div>
+</nav>
+
+<div class="col-xs-6">
+  <p>Select a start and stop station from the dropdown menu to view trip statistics for that route.</p>
+<br>
+
+  <select name=start>
 {% for entry in entries %}
   <option value= "{{entry.start}}">{{entry.start}}</option>
 {% endfor %}
@@ -13,14 +41,15 @@
   <option value= "{{ entry.end }}">{{entry.end}}</option>
 {% endfor %}
 </select>
+
 <td><input type=submit value=Submit>
 </form>
+</div>
+</div>
 
-<div id="map" style="width: 1060px; height: 800px"></div>
+<div id="map" class="col-md-6" style="width: 800px; height: 600px"></div>
 
-<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
-<script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
-<script src={{ url_for('static', filename='stations.js') }}></script>
+
 <script>
 
 var map = L.map('map').setView([47.6031447,-122.3285673], 12);
@@ -50,5 +79,6 @@ layer.bindPopup(feature.properties.name);
 });
 map.addLayer(geojsonLayer);
 </script>
+</div>
 </body>
 </html>

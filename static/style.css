@@ -1,10 +1,10 @@
 body {
   margin: 20;
+  padding-top: 60px;
 }
 
 #map {
-  width: 50%;
-  height: 80%;
+position: inherited;
 }
 
 path {
@@ -28,4 +28,22 @@ path {
   fill: none;
   stroke: black;
   opacity: 1;
+}
+
+.navbar-custom {
+background-color:#003B49;
+color:#ffffff;
+border-radius:0;
+font: bold 14px Helvetica,sans-serif;
+}
+
+.navbar-custom .navbar-nav > li > a {
+color:#fff;
+}
+.navbar-custom .navbar-nav > .active > a, .navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus {
+color: #ffffff;
+background-color:transparent;
+}
+.navbar-custom .navbar-brand {
+color:#eeeeee;
 }
