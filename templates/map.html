@@ -26,7 +26,8 @@
     {{ entry.station_start }}
     {{ entry.station_end }}
     {% endfor %}
-</div>
+
+  </div>
 
   <div id='map' class='col-xs-6'>
 <script type='text/javascript'>
@@ -40,15 +41,16 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6
           .setView([47.6578301,-122.3070475], 13);
     var svg = d3.select(map.getPanes().overlayPane).append('svg');
     var g = svg.append('g').attr('class', 'leaflet-zoom-hide');
-
-d3.json('routeFH-01_UW-10.geojson', function(collection) {
+    var infile = '{{ infile }}'
+    
+    d3.json("{{ url_for('static', filename=infile) }}", function(collection) {
 
         // this is not needed right now, but for future we may need
         // to implement some filtering. This uses the d3 filter function
         // featuresdata is an array of point objects
 
 var featuresdata = collection.features.filter(function(d) {
-    return d.properties.id == 'FH-01_UW-10'
+    return d.properties.id == '{{ route }}'
         })
         //stream transform. transforms geometry before passing it to
         // listener. Can be used in conjunction with d3.geo.path

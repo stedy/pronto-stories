@@ -56,9 +56,11 @@ def get_map():
     cur = db.execute("""SELECT station_start, station_end FROM Trips WHERE
             start = ? AND end = ?""",
             [request.form['start'], request.form['end']])
-    print(request.form['start'])
     entries = cur.fetchall()
-    return render_template('map.html', entries=entries)
+    route = request.form['start'] +'_'+ request.form['end']
+    infile = 'route' + route + '.geojson'
+    return render_template('map.html', entries=entries, route=route,
+            infile=infile)
     
 
 if __name__ == '__main__':
