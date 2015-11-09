@@ -53,7 +53,8 @@ def show_entries():
 @app.route('/get_map', methods=['GET', 'POST'])
 def get_map():
     db = get_db()
-    cur = db.execute("""SELECT station_start, station_end, ntrips, routerank
+    cur = db.execute("""SELECT station_start, station_end, ntrips,
+                        routerank, minutes, seconds
                         FROM Trips WHERE start = ? AND end = ?""",
             [request.form['start'], request.form['end']])
     entries = cur.fetchall()
