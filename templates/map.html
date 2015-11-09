@@ -48,17 +48,14 @@
     Trip start: {{ entry.station_start }}</br>
     Trip ending at: {{ entry.station_end }}</br>
     Total number of riders: {{ entry.ntrips }}</br>
-    Rank out of all possible routes: {{ entry.routerank }}
+    Rank out of all possible routes: {{ entry.routerank }}</br>
+    Mean travel time: {{ entry.minutes }}m {{ entry.seconds|round(0, 'floor') }}s
     {% endfor %}
     </p>
 </div>
 
 <div id='map' class='col-xs-6' style="width: 900px; height: 1000px"></div>
 <script type='text/javascript'>
-
-//var div = document.getElementById('demo');
-//div.innerHTML = div.innerHTML + 'Extra stuff';
-
 
 L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6rBzTCw';
     map = L.mapbox.map('map', 'mapbox.streets')
