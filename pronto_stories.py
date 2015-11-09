@@ -44,9 +44,11 @@ def close_db(error):
 @app.route('/', methods=['GET', 'POST'])
 def show_entries():
     db = get_db()
-    cur = db.execute("""SELECT DISTINCT start, end FROM Trips""")
-    entries = cur.fetchall()
-    return render_template('main.html', entries=entries)
+    cur = db.execute("""SELECT DISTINCT start FROM Trips""")
+    starts = cur.fetchall()
+    curend = db.execute("""SELECT DISTINCT end FROM Trips""")
+    ends = curend.fetchall()
+    return render_template('main.html', starts=starts, ends=ends)
 
 @app.route('/get_map', methods=['GET', 'POST'])
 def get_map():

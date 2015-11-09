@@ -8,9 +8,9 @@ position: inherited;
 }
 
 path {
-  fill: yellow;
+  fill: #8EDD65;
   stroke-width: 2px;
-  stroke: red;
+  stroke: #003B49;
   stroke-opacity: 1;
 }
 
@@ -30,6 +30,16 @@ path {
   opacity: 1;
 }
 
+#intro p {
+  font-size: 34px;
+  color: #003B49;
+}
+
+#demo p {
+  font-size: 34px;
+  color: #003B49;
+}
+
 .navbar-custom {
 background-color:#003B49;
 color:#ffffff;
@@ -44,6 +54,7 @@ color:#fff;
 color: #ffffff;
 background-color:transparent;
 }
+
 .navbar-custom .navbar-brand {
 color:#eeeeee;
 }

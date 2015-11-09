@@ -27,18 +27,18 @@
 </div>
 </nav>
 
-<div class="col-xs-6">
+<div id="intro" class="col-xs-6">
   <p>Select a start and stop station from the dropdown menu to view trip statistics for that route.</p>
 <br>
 
   <select name=start>
-{% for entry in entries %}
-  <option value= "{{entry.start}}">{{entry.start}}</option>
+{% for start in starts %}
+  <option value= "{{ start.start }}">{{start.start}}</option>
 {% endfor %}
 </select>
 <select name=end>
-{% for entry in entries %}
-  <option value= "{{ entry.end }}">{{entry.end}}</option>
+{% for end in ends %}
+  <option value= "{{ end.end }}">{{end.end}}</option>
 {% endfor %}
 </select>
 
@@ -47,12 +47,12 @@
 </div>
 </div>
 
-<div id="map" class="col-md-6" style="width: 800px; height: 600px"></div>
+<div id="map" class="col-md-6" style="width: 900px; height: 1000px"></div>
 
 
 <script>
 
-var map = L.map('map').setView([47.6031447,-122.3285673], 12);
+var map = L.map('map').setView([47.6231447,-122.3285673], 13);
 L.tileLayer('https://{s}.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             maxZoom: 24,
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
