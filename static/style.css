@@ -58,3 +58,16 @@ background-color:transparent;
 .navbar-custom .navbar-brand {
 color:#eeeeee;
 }
+
+.typeahead, .tt-query, .tt-hint {
+  border: 2px solid #ccc;
+  height: 50px;
+  width: 400px;
+}
+
+.tt-menu {
+  background-color: #fff;
+  font-size: 18px;
+  color: #003B49;
+}
+
