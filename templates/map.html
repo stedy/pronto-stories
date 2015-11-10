@@ -50,7 +50,6 @@
     Total number of riders: {{ entry.ntrips }}</br>
     Rank out of all possible routes: {{ entry.routerank }}</br>
     Mean travel time: {{ entry.minutes }}m {{ entry.seconds|round(0, 'floor') }}s
-    {% endfor %}
     </p>
 </div>
 
@@ -62,16 +61,18 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6
           .setView([47.6031447,-122.3285673], 13);
     var svg = d3.select(map.getPanes().overlayPane).append('svg');
     var g = svg.append('g').attr('class', 'leaflet-zoom-hide');
-    var infile = '{{ infile }}'
-
-    d3.json("{{ url_for('static', filename=infile) }}", function(collection) {
+    var route = '{{ entry.route }}'
+    var infile = 'route'+route+'.geojson'
+    console.log(infile)
+    {% endfor %}
+    d3.json("http://127.0.0.1:5000/static/" + infile, function(collection) {
 
         // this is not needed right now, but for future we may need
         // to implement some filtering. This uses the d3 filter function
         // featuresdata is an array of point objects
 
 var featuresdata = collection.features.filter(function(d) {
-    return d.properties.id == '{{ route }}'
+    return d.properties.id == route
         })
         //stream transform. transforms geometry before passing it to
         // listener. Can be used in conjunction with d3.geo.path
@@ -111,12 +112,13 @@ var featuresdata = collection.features.filter(function(d) {
             .attr('class', 'travelMarker');
 
         var originANDdestination = [featuresdata[0], featuresdata[featuresdata.length - 1]]
-
+        
         var begend = g.selectAll('.drinks')
             .data(originANDdestination)
             .enter()
             .append('circle', '.drinks')
             .style('opacity', '1');
+
         map.on('viewreset', reset);
 
         reset();

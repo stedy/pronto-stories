@@ -1,4 +1,5 @@
 import datetime as dt
+import json
 import os
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, g, redirect, url_for,\
@@ -43,25 +44,17 @@ def close_db(error):
 
 @app.route('/', methods=['GET', 'POST'])
 def show_entries():
-    db = get_db()
-    cur = db.execute("""SELECT DISTINCT start FROM Trips""")
-    starts = cur.fetchall()
-    curend = db.execute("""SELECT DISTINCT end FROM Trips""")
-    ends = curend.fetchall()
-    return render_template('main.html', starts=starts, ends=ends)
+    return render_template('main.html')
 
 @app.route('/get_map', methods=['GET', 'POST'])
 def get_map():
     db = get_db()
-    cur = db.execute("""SELECT station_start, station_end, ntrips,
+    cur = db.execute("""SELECT route, station_start, station_end, ntrips,
                         routerank, minutes, seconds
-                        FROM Trips WHERE start = ? AND end = ?""",
+                        FROM Trips WHERE station_start = ? AND station_end = ?""",
             [request.form['start'], request.form['end']])
     entries = cur.fetchall()
-    route = request.form['start'] +'_'+ request.form['end']
-    infile = 'route' + route + '.geojson'
-    return render_template('map.html', entries=entries, route=route,
-            infile=infile)
+    return render_template('map.html', entries=entries)
 
 if __name__ == '__main__':
     app.run()

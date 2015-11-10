@@ -5,7 +5,11 @@
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
 <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.3.js"></script>
+<script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+<script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.jquery.js"></script>
 <script src={{ url_for('static', filename='stations.js') }}></script>
+<script src={{ url_for('static', filename='station_names.js') }}></script>
 
 <nav class="navbar navbar-custom navbar-fixed-top">
   <div class="container">
@@ -31,16 +35,12 @@
   <p>Select a start and stop station from the dropdown menu to view trip statistics for that route.</p>
 <br>
 
-  <select name=start>
-{% for start in starts %}
-  <option value= "{{ start.start }}">{{start.start}}</option>
-{% endfor %}
-</select>
-<select name=end>
-{% for end in ends %}
-  <option value= "{{ end.end }}">{{end.end}}</option>
-{% endfor %}
-</select>
+
+<td><div id="start-stations">
+    <input class="typeahead" type="text" placeholder="Starting Station" name=start></td></tr></div>
+<td><div id="end-stations">
+    <input class="typeahead" type="text" placeholder="Ending Station" name=end></td></tr></div>
+
 
 <td><input type=submit value=Submit>
 </form>
