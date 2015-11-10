@@ -12,14 +12,7 @@ trips.summary <-
                 mean_time = mean(.$tripduration))) %>%
   mutate(routefraction = ntrips/nrow(trips))
 
-routes <- gtools::permutations(54, 2, stations$terminal)
-all.routes <- c(paste(routes[, 1], routes[, 2], sep="_"),
-                paste(stations$id, stations$id, sep="_"))
-
-riderless.routes <- data.frame(route = setdiff(trips.summary$route, all.routes),
-                               ntrips=0, mean_time = 0, routefraction=NA)
-trips.summary <- rbind(trips.summary, riderless.routes)
-trips.summary$routerank <- rank(trips.summary$routefraction, ties.method="max")
+trips.summary$routerank <- rank(-trips.summary$ntrips, ties.method="max")
 
 trips.summary$start <- sapply(strsplit(trips.summary$route, "_"), "[", 1)
 trips.summary$end <- sapply(strsplit(trips.summary$route, "_"), "[", 2)
@@ -39,8 +32,8 @@ trips.summary <-
   rename(station_end=name) %>%
   select(route, ntrips, mean_time, routefraction, routerank,
          station_start, station_end, start, end,
-         minutes, seconds)
-trips.summary
+         minutes, seconds)  
+
 trips.summary[] <- data.frame(sapply(trips.summary, as.character))
 trips.summary$seconds <- as.numeric(trips.summary$seconds)
 
