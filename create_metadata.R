@@ -41,7 +41,7 @@ trips.summary <-
   trips.summary %>%
   merge(stations, by.x="start", by.y="terminal") %>%
   rename(station_start=name) %>%
-  select(route, ntrips, mean_time, routefraction, routerank,
+  select(route, ntrips, mean_time, routefraction, routerank, delta_elevation,
          station_start, start, end) %>%
   mutate(minutes = floor(mean_time/60),
          seconds = (mean_time %% 1) * 100)
@@ -50,7 +50,7 @@ trips.summary <-
   trips.summary %>%
   merge(stations, by.x="end", by.y="terminal") %>%
   rename(station_end=name) %>%
-  select(route, ntrips, mean_time, routefraction, routerank,
+  select(route, ntrips, mean_time, routefraction, routerank, delta_elevation,
          station_start, station_end, start, end,
          minutes, seconds)  
 
