@@ -33,7 +33,7 @@
                           <span class="icon-bar"></span>
                           <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" style="padding: 2px 0 0 0px;" href="http://127.0.0.1:5000"><img src="http://www.prontocycleshare.com/assets/images/logos/logo.png" /></a>
+                        <a class="navbar-brand" style="padding: 2px 0 0 0px;" href="http://prontostories.com"><img src="{{url_for('static', filename='logo.png'}}" /></a>
                       </div>
                       <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
@@ -82,7 +82,7 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6
     var route = '{{ entry.route }}'
     var infile = 'route'+route+'.geojson'
     {% endfor %}
-d3.json("http://127.0.0.1:5000/static/" + infile, function(collection) {
+d3.json("http://prontostories.com/static/" + infile, function(collection) {
 
     var featuresdata = collection.features.filter(function(d) {
       return d.properties.id == route

@@ -20,7 +20,7 @@
 <span class="icon-bar"></span>
 <span class="icon-bar"></span>
 </button>
-<a class="navbar-brand" style="padding: 2px 0 0 0px;" href="#"><img src="http://www.prontocycleshare.com/assets/images/logos/logo.png" /></a>
+<a class="navbar-brand" style="padding: 2px 0 0 0px;" href="#"><img src="{{ url_for('static', filename='logo.png')}}" /></a>
 </div>
 <div id="navbar" class="collapse navbar-collapse">
 <ul class="nav navbar-nav">
@@ -58,7 +58,6 @@ L.tileLayer('https://{s}.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
                          '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
                          'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-//  id: 'examples.map-i875mjb7',
             id: 'stedy.mck2dne6',
             accessToken: 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6rBzTCw',
             }).addTo(map);
@@ -80,5 +79,11 @@ layer.bindPopup(feature.properties.name);
 map.addLayer(geojsonLayer);
 </script>
 </div>
+<div id="footer">
+  <div class="container">
+    <p class="muted credit">Created by <a href="http://zachstednick.com">Zach Stednick</a></p>
+  </div>
+</div>
+
 </body>
 </html>
