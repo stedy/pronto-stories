@@ -56,6 +56,7 @@ trips.summary <-
 
 trips.summary[] <- data.frame(sapply(trips.summary, as.character))
 trips.summary$seconds <- as.numeric(trips.summary$seconds)
+trips.summary$delta_elevation <- as.numeric(trips.summary$delta_elevation)
 
 stations.latlong <- stations %>% select(terminal, lat, long)
 
