@@ -48,13 +48,18 @@ def show_entries():
 
 @app.route('/get_map', methods=['GET', 'POST'])
 def get_map():
+    error = None
     db = get_db()
     cur = db.execute("""SELECT route, station_start, station_end, ntrips,
-                        routerank, minutes, seconds
+                        routerank, minutes, seconds, delta_elevation, distance
                         FROM Trips WHERE station_start = ? AND station_end = ?""",
             [request.form['start'], request.form['end']])
     entries = cur.fetchall()
-    return render_template('map.html', entries=entries)
+    if request.form['start'] == "":
+        error = "You must select a start and stop station"
+        return render_template('main.html', error = error)
+    else:
+        return render_template('map.html', entries=entries)
 
 if __name__ == '__main__':
     app.run()

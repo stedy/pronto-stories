@@ -31,7 +31,7 @@
                           <span class="icon-bar"></span>
                           <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" style="padding: 2px 0 0 0px;" href="#"><img src="http://www.prontocycleshare.com/assets/images/logos/logo.png" /></a>
+                        <a class="navbar-brand" style="padding: 2px 0 0 0px;" href="http://127.0.0.1:5000"><img src="http://www.prontocycleshare.com/assets/images/logos/logo.png" /></a>
                       </div>
                       <div id="navbar" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
@@ -49,11 +49,13 @@
     Trip ending at: {{ entry.station_end }}</br>
     Total number of riders: {{ entry.ntrips }}</br>
     Rank out of all possible routes: {{ entry.routerank }}</br>
+    Change in elevation: {{ entry.delta_elevation }}</br>
+    Distance: {{ entry.distance }} miles</br>
     Mean travel time: {{ entry.minutes }}m {{ entry.seconds|round(0, 'floor') }}s
     </p>
 </div>
 
-<div id='map' class='col-xs-6' style="width: 900px; height: 1000px"></div>
+<div id='map' class='col-xs-6' style="width: 800px; height: 1000px"></div>
 <script type='text/javascript'>
 
 L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6rBzTCw';
@@ -63,20 +65,12 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6
     var g = svg.append('g').attr('class', 'leaflet-zoom-hide');
     var route = '{{ entry.route }}'
     var infile = 'route'+route+'.geojson'
-    console.log(infile)
     {% endfor %}
-    d3.json("http://127.0.0.1:5000/static/" + infile, function(collection) {
+d3.json("http://127.0.0.1:5000/static/" + infile, function(collection) {
 
-        // this is not needed right now, but for future we may need
-        // to implement some filtering. This uses the d3 filter function
-        // featuresdata is an array of point objects
-
-var featuresdata = collection.features.filter(function(d) {
-    return d.properties.id == route
+    var featuresdata = collection.features.filter(function(d) {
+      return d.properties.id == route
         })
-        //stream transform. transforms geometry before passing it to
-        // listener. Can be used in conjunction with d3.geo.path
-        // to implement the transform.
 
         var transform = d3.geo.transform({
             point: projectPoint
@@ -112,7 +106,7 @@ var featuresdata = collection.features.filter(function(d) {
             .attr('class', 'travelMarker');
 
         var originANDdestination = [featuresdata[0], featuresdata[featuresdata.length - 1]]
-        
+
         var begend = g.selectAll('.drinks')
             .data(originANDdestination)
             .enter()

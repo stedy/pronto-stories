@@ -1,6 +1,5 @@
 <!doctype html>
 <title>Pronto Stories</title>
-<form action="{{ url_for('get_map') }}" method=post class=addstudy>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
@@ -31,7 +30,9 @@
 </div>
 </nav>
 
-<div id="intro" class="col-xs-6">
+<div id="intro" class="col-xs-5">
+ {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+  <form action="{{ url_for('get_map') }}" method=post class=addstudy>
   <p>Select a start and stop station from the dropdown menu to view trip statistics for that route.</p>
 <br>
 
@@ -42,13 +43,12 @@
     <input class="typeahead" type="text" placeholder="Ending Station" name=end></td></tr></div>
 
 
-<td><input type=submit value=Submit>
+<td><input class="btn btn-default" type=submit value="Map it!">
 </form>
 </div>
 </div>
 
-<div id="map" class="col-md-6" style="width: 900px; height: 1000px"></div>
-
+<div id="map" class="col-xs-6" style="width: 800px; height: 900px"></div>
 
 <script>
 

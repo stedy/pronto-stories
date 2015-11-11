@@ -3,10 +3,6 @@ body {
   padding-top: 60px;
 }
 
-#map {
-position: inherited;
-}
-
 path {
   fill: #8EDD65;
   stroke-width: 2px;
@@ -71,3 +67,4 @@ color:#eeeeee;
   color: #003B49;
 }
 
+.error { background: #F0D6D6; padding: 0.5em; }
