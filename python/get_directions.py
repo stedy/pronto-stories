@@ -3,7 +3,7 @@ import json
 import csv
 from collections import OrderedDict
 
-API = 'AIzaSyDla4x_GIF_IBCdV_0jW1znJnM31JVrG1I'
+API = ''
 
 gmaps = googlemaps.Client(API)
 
