@@ -55,12 +55,6 @@ def get_map():
                         FROM Trips WHERE station_start = ? AND station_end = ?""",
             [request.form['start'], request.form['end']])
     entries = cur.fetchall()
-<<<<<<< HEAD
-=======
-    
-    print request.form['start']
-    print request.form['end']
->>>>>>> fb8008bbf741f718d377ae2207cbeca1b259dea8
     if request.form['start'] == "":
         error = "You must select a start and stop station"
         return render_template('main.html', error = error)
