@@ -30,7 +30,7 @@ trips.summary <-
   group_by(route) %>%
   do(data.frame(ntrips = length(.$route),
                 mean_time = mean(.$tripduration),
-                delta_elevation = mean(.$start_elevation - .$end_elevation))) %>%
+                delta_elevation = mean(.$end_elevation - .$start_elevation))) %>%
   mutate(routefraction = ntrips/nrow(trips))
 
 trips.summary$routerank <- rank(-trips.summary$ntrips, ties.method="max")
