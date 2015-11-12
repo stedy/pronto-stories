@@ -16,7 +16,7 @@ app.config.update(dict(
     USERNAME='admin',
     PASSWORD='default'
 ))
-app.config.from_envvar('ABOUNCE_SETTINGS', silent=True)
+app.config.from_envvar('PS_SETTINGS', silent=True)
 
 
 def connect_db():
@@ -55,6 +55,9 @@ def get_map():
                         FROM Trips WHERE station_start = ? AND station_end = ?""",
             [request.form['start'], request.form['end']])
     entries = cur.fetchall()
+    
+    print request.form['start']
+    print request.form['end']
     if request.form['start'] == "":
         error = "You must select a start and stop station"
         return render_template('main.html', error = error)

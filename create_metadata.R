@@ -44,7 +44,7 @@ trips.summary <-
   select(route, ntrips, mean_time, routefraction, routerank, delta_elevation,
          station_start, start, end) %>%
   mutate(minutes = floor(mean_time/60),
-         seconds = (mean_time %% 1) * 100)
+         seconds = floor(mean_time %% 1) * 60)
 
 trips.summary <-
   trips.summary %>%
@@ -74,6 +74,7 @@ for(x in 1:nrow(trips.summary)){
 }
 
 trips.summary$distance <- distances
+trips.summary$delta_elevation <- trips.summary$delta_elevation * 3.28
 
 conn <- dbConnect(SQLite(), dbname = "pronto.db")
 dbSendQuery(conn, "DROP TABLE IF EXISTS Trips");
