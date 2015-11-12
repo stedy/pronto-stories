@@ -45,8 +45,10 @@
   <div id='demo' class='col-xs-5'>
     <p>
     {% for entry in entries %}
-    Trip start: {{ entry.station_start }}</br>
-    Trip ending at: {{ entry.station_end }}</br>
+    Trip start:</br>
+    {{ entry.station_start }}</br>
+    Trip ending at:</br>
+    {{ entry.station_end }}</br>
     Total number of riders: {{ entry.ntrips }}</br>
     Rank out of all possible routes: {{ entry.routerank }}</br>
     Change in elevation: {{ entry.delta_elevation|round(2, 'floor') }} feet</br>
@@ -74,7 +76,7 @@
 
 L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6rBzTCw';
     map = L.mapbox.map('map', 'mapbox.streets')
-          .setView([47.6141447,-122.3285673], 13);
+          .setView([47.6161447,-122.3285673], 13);
     var svg = d3.select(map.getPanes().overlayPane).append('svg');
     var g = svg.append('g').attr('class', 'leaflet-zoom-hide');
     var route = '{{ entry.route }}'
