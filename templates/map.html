@@ -74,7 +74,7 @@
 
 L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6rBzTCw';
     map = L.mapbox.map('map', 'mapbox.streets')
-          .setView([47.6031447,-122.3285673], 13);
+          .setView([47.6141447,-122.3285673], 13);
     var svg = d3.select(map.getPanes().overlayPane).append('svg');
     var g = svg.append('g').attr('class', 'leaflet-zoom-hide');
     var route = '{{ entry.route }}'
