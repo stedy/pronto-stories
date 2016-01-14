@@ -30,6 +30,7 @@ trips.summary <-
   group_by(route) %>%
   do(data.frame(ntrips = length(.$route),
                 mean_time = mean(.$tripduration),
+                min_time = min(.$tripduration),
                 delta_elevation = mean(.$end_elevation - .$start_elevation))) %>%
   mutate(routefraction = ntrips/nrow(trips))
 
@@ -41,18 +42,20 @@ trips.summary <-
   trips.summary %>%
   merge(stations, by.x="start", by.y="terminal") %>%
   rename(station_start=name) %>%
-  select(route, ntrips, mean_time, routefraction, routerank, delta_elevation,
+  select(route, ntrips, mean_time, min_time, routefraction, routerank, delta_elevation,
          station_start, start, end) %>%
   mutate(minutes = floor(mean_time/60),
-         seconds = floor(mean_time %% 1) * 60)
+         seconds = floor(mean_time %% 1) * 60,
+         min_minutes = floor(min_time/60),
+         min_seconds = floor(min_time %% 1) * 60)
 
 trips.summary <-
   trips.summary %>%
   merge(stations, by.x="end", by.y="terminal") %>%
   rename(station_end=name) %>%
-  select(route, ntrips, mean_time, routefraction, routerank, delta_elevation,
+  select(route, ntrips, mean_time, min_time, routefraction, routerank, delta_elevation,
          station_start, station_end, start, end,
-         minutes, seconds)  
+         minutes, seconds, min_minutes, min_seconds)  
 
 trips.summary[] <- data.frame(sapply(trips.summary, as.character))
 trips.summary$seconds <- as.numeric(trips.summary$seconds)

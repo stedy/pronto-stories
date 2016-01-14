@@ -11,10 +11,7 @@ app = Flask(__name__)
 # variable
 app.config.update(dict(
     DATABASE=os.path.join(app.root_path, 'pronto.db'),
-    DEBUG=True,
-    SECRET_KEY='development key',
-    USERNAME='admin',
-    PASSWORD='default'
+#    DEBUG=True,
 ))
 app.config.from_envvar('PS_SETTINGS', silent=True)
 
@@ -51,7 +48,8 @@ def get_map():
     error = None
     db = get_db()
     cur = db.execute("""SELECT route, station_start, station_end, ntrips,
-                        routerank, minutes, seconds, delta_elevation, distance
+                        routerank, minutes, seconds, min_minutes, min_seconds,
+                        delta_elevation, distance
                         FROM Trips WHERE station_start = ? AND station_end = ?""",
             [request.form['start'], request.form['end']])
     entries = cur.fetchall()

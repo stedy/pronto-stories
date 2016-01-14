@@ -45,15 +45,16 @@
   <div id='demo' class='col-xs-5'>
     <p>
     {% for entry in entries %}
-    Trip start:</br>
+    <u>Trip start:</u></br>
     {{ entry.station_start }}</br>
-    Trip ending at:</br>
+    <u>Trip ending at:</u></br>
     {{ entry.station_end }}</br>
-    Total number of riders: {{ entry.ntrips }}</br>
-    Rank out of all possible routes: {{ entry.routerank }}</br>
-    Change in elevation: {{ entry.delta_elevation|round(2, 'floor') }} feet</br>
-    Distance: {{ entry.distance|round(2, 'floor') }} miles</br>
-    Average travel time: {{ entry.minutes }}m {{ entry.seconds|round(0, 'floor') }}s
+    <u>Total number of riders:</u> {{ entry.ntrips }}</br>
+    <u>Rank out of all possible routes:</u> {{ entry.routerank }}</br>
+    <u>Change in elevation:</u> {{ entry.delta_elevation|round(2, 'floor') }} feet</br>
+    <u>Distance:</u> {{ entry.distance|round(2, 'floor') }} miles</br>
+    <u>Average travel time:</u> {{ entry.minutes }}m {{ entry.seconds|round(0, 'floor') }}s</br>
+    <u>Fastest travel time:</u> {{ entry.min_minutes }}m {{ entry.min_seconds }}s
     </p>
     <b>
       <p>
