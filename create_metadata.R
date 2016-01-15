@@ -45,9 +45,9 @@ trips.summary <-
   select(route, ntrips, mean_time, min_time, routefraction, routerank, delta_elevation,
          station_start, start, end) %>%
   mutate(minutes = floor(mean_time/60),
-         seconds = floor(mean_time %% 1) * 60,
+         seconds = floor(mean_time %% 1 * 60),
          min_minutes = floor(min_time/60),
-         min_seconds = floor(min_time %% 1) * 60)
+         min_seconds = floor(min_time %% 1 * 60))
 
 trips.summary <-
   trips.summary %>%
