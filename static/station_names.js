@@ -1,20 +1,19 @@
-$(function(){
 var substringMatcher = function(strs) {
-return function findMatches(q, cb) {
-var matches, substringRegex;
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
 
-  matches = [];
+    matches = [];
 
- substrRegex = new RegExp(q, 'i');
- $.each(strs, function(i, str) {
-       if (substrRegex.test(str)) {
-                matches.push(str);
-          }
-       });
+    substrRegex = new RegExp(q, 'i');
+    $.each(strs, function(i, str) {
+      if (substrRegex.test(str)) {
+        matches.push(str);
+      }
+    });
 
-       cb(matches);
-           };
-       };
+    cb(matches);
+  };
+};
 
 var stations = [
 "3rd Ave & Broad St",
@@ -72,22 +71,23 @@ var stations = [
 "Union St & 4th Ave",
 "Mercer St & 9th Ave N"];
 
-$('#start-stations .typeahead').typeahead({
+var registerTypeaheads = function () {
+  $('#start-stations .typeahead').typeahead({
     hint: true,
     highlight: true,
     minLength: 1
   },
-    {
-      name: 'starts',
-      source: substringMatcher(stations)
-    });
-$('#end-stations .typeahead').typeahead({
+  {
+    name: 'starts',
+    source: substringMatcher(stations)
+  });
+  $('#end-stations .typeahead').typeahead({
     hint: true,
     highlight: true,
     minLength: 1
   },
-    {
-      name: 'ends',
-      source: substringMatcher(stations)
-    });
-});
+  {
+    name: 'ends',
+    source: substringMatcher(stations)
+  });
+};

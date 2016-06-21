@@ -7,6 +7,10 @@
 <script src="http://code.jquery.com/jquery-1.11.3.js"></script>
 <script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 <script src="http://twitter.github.io/typeahead.js/releases/latest/typeahead.jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+<script type="text/babel" src="StationPicker.jsx"></script>
 <script src={{ url_for('static', filename='stations.js') }}></script>
 <script src={{ url_for('static', filename='station_names.js') }}></script>
 
@@ -32,19 +36,7 @@
 
 <div id="intro" class="col-xs-5">
  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
-  <form action="{{ url_for('get_map') }}" method=post>
-  <p>Select a start and stop station from the dropdown menu to view trip statistics for that route.</p>
-<br>
-
-
-<td><div id="start-stations">
-    <input class="typeahead" type="text" placeholder="Starting Station" name=start></td></tr></div>
-<td><div id="end-stations">
-    <input class="typeahead" type="text" placeholder="Ending Station" name=end></td></tr></div>
-
-
-<td><input class="btn btn-default" type=submit value="Map it!">
-</form>
+  <div id="stationPickerPlaceholder"></div>
 </div>
 </div>
 

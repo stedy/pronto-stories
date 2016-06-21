@@ -5,7 +5,7 @@ from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, g, redirect, url_for,\
         render_template, flash
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='', static_folder='static')
 
 # Load default config and override config from an environment
 # variable
