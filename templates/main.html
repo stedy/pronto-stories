@@ -13,6 +13,7 @@
 <script type="text/babel" src="StationPicker.jsx"></script>
 <script src={{ url_for('static', filename='stations.js') }}></script>
 <script src={{ url_for('static', filename='station_names.js') }}></script>
+<a id="hidden_get_map_link" href="{{ url_for('get_map') }}"></a>
 
 <nav class="navbar navbar-custom navbar-fixed-top">
   <div class="container">
@@ -43,7 +44,7 @@
 <div id="map" class="col-xs-6" style="width: 800px; height: 900px"></div>
 
 <script>
-
+var markerClickHandler;
 var map = L.map('map').setView([47.6231447,-122.3285673], 13);
 L.tileLayer('https://{s}.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
             maxZoom: 24,
@@ -62,7 +63,13 @@ geojsonLayer = L.geoJson(geojson, {
     pointToLayer: function(feature, latlng) {
   var currentZoom = map.getZoom();
 
-return new L.CircleMarker(latlng, {radius: 10, fillOpacity: 0.85});
+var marker = new L.CircleMarker(latlng, {radius: 10, fillOpacity: 0.85});
+marker.on('click', function () {
+  if (markerClickHandler !== undefined) {
+    markerClickHandler(feature.properties.name);
+  }
+});
+return marker;
 },
 onEachFeature: function (feature, layer) {
 layer.bindPopup(feature.properties.name);
