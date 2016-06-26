@@ -3,17 +3,52 @@ var currentPicker;
 var StationPicker = React.createClass({
   getInitialState: function () {
     return {
-      value: ""
+      value: "",
+      isSelecting: false
     }
   },
+  select: function (value) {
+    this.setState({
+      value: value,
+      isSelecting: false
+    });
+  },
   onClick: function () {
-    currentPicker = this;
+    if (this.state.isSelecting) {
+      this.setState({ isSelecting: false });
+      currentPicker = undefined;
+    } else {
+      this.setState({ isSelecting: true });
+      currentPicker = this;
+    }
   },
   render: function () {
+    var rowStyle = {
+      display: "flex"
+    };
+
+    var buttonValue;
+    var buttonStyle = {
+      marginRight: "10px"
+    };
+    if (this.state.isSelecting) {
+      buttonValue = "Cancel";
+      buttonStyle.background = "red";
+    } else {
+      buttonValue = "Select";
+      buttonStyle.background = "lightblue";
+    }
+
+    var selectingIndicator;
+    if (this.state.isSelecting) {
+      selectingIndicator = <div>selecting...</div>;
+    }
+
     return (
-      <div id={this.props.id}>
+      <div style={rowStyle} id={this.props.id}>
         <input className="typeahead" type="text" placeholder={this.props.placeholder} name={this.props.name} value={this.state.value}></input>
-        <input type="button" onClick={this.onClick.bind(this)} value="Select"></input>
+        <input style={buttonStyle} type="button" type="button" onClick={this.onClick} value={buttonValue} />
+        {selectingIndicator}
       </div>
     );
   }
@@ -24,7 +59,7 @@ var StationForm = React.createClass({
     registerTypeaheads();
     markerClickHandler = function (name) {
       if (currentPicker !== undefined) {
-        currentPicker.setState({ value: name });
+        currentPicker.select(name);
       }
     }
   },
