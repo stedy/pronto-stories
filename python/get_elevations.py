@@ -36,7 +36,7 @@ def get_elevation(latlng):
     data = make_json_request(elevation_uri)
     return data['results'][0]['elevation']
 
-with open('elevations.txt', 'w') as el:
+with open('../data/elevations.txt', 'w') as el:
     for x in station_data:
         time.sleep(2)
         el.write("{}, {}\n".format(x['name'], get_elevation(x['latlong'])))
