@@ -10,74 +10,42 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+<script>
+var markerClickHandler;
+</script>
 <script type="text/babel" src="StationPicker.jsx"></script>
+<script type="text/babel" src="Map.jsx"></script>
 <script src={{ url_for('static', filename='stations.js') }}></script>
 <script src={{ url_for('static', filename='station_names.js') }}></script>
 <a id="hidden_get_map_link" href="{{ url_for('get_map') }}"></a>
 
 <nav class="navbar navbar-custom navbar-fixed-top">
   <div class="container">
-  <div class="navbar-header">
-    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-    <span class="sr-only">Toggle navigation</span>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
 
-    <span class="icon-bar"></span>
-<span class="icon-bar"></span>
-<span class="icon-bar"></span>
-</button>
-<a class="navbar-brand" style="padding: 2px 0 0 0px;" href="#"><img src="{{ url_for('static', filename='logo.png')}}" /></a>
-</div>
-<div id="navbar" class="collapse navbar-collapse">
-<ul class="nav navbar-nav">
-<li class="active" style="font-size:42px;" ><a href="#">STORIES</a></li>
-</ul>
-</div>
-</div>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" style="padding: 2px 0 0 0px;" href="#"><img src="{{ url_for('static', filename='logo.png')}}" /></a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="active" style="font-size:42px;" ><a href="#">STORIES</a></li>
+      </ul>
+    </div>
+  </div>
 </nav>
 
 <div id="intro" class="col-xs-5">
  {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
   <div id="stationPickerPlaceholder"></div>
 </div>
-</div>
 
-<div id="map" class="col-xs-6" style="width: 800px; height: 900px"></div>
+<div id="mapPlaceholder"></div>
 
-<script>
-var markerClickHandler;
-var map = L.map('map').setView([47.6231447,-122.3285673], 13);
-L.tileLayer('https://{s}.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-            maxZoom: 24,
-            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                         '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-            id: 'stedy.mck2dne6',
-            accessToken: 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6rBzTCw',
-            }).addTo(map);
-
-
-geojsonLayer = L.geoJson(geojson, {
-    style: function(feature) {
-      return {color: feature.properties.visit};
-      },
-    pointToLayer: function(feature, latlng) {
-  var currentZoom = map.getZoom();
-
-var marker = new L.CircleMarker(latlng, {radius: 10, fillOpacity: 0.85});
-marker.on('click', function () {
-  if (markerClickHandler !== undefined) {
-    markerClickHandler(feature.properties.name);
-  }
-});
-return marker;
-},
-onEachFeature: function (feature, layer) {
-layer.bindPopup(feature.properties.name);
-}
-});
-map.addLayer(geojsonLayer);
-</script>
-</div>
 <div id="footer">
   <div class="container">
     <p class="muted credit">Created by <a href="http://zachstednick.com">Zach Stednick</a></p>
