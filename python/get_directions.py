@@ -2,9 +2,11 @@ import googlemaps
 import json
 import csv
 from collections import OrderedDict
+import pickle
+import os.path
 
+# https://console.developers.google.com/apis/credentials
 API = ''
-
 gmaps = googlemaps.Client(API)
 
 def decode(point_str):
@@ -65,12 +67,26 @@ pairwise_directions = []
 for x in station_data:
     for y in station_data:
         if x != y:
-            item2 = {}
-            item2['route'] = "{}:{}".format(x['name'], y['name'])
-            directions = gmaps.directions(x['latlong'], y['latlong'],
-                    mode="bicycling")
-            item2['turns'] = decode(directions[0]['overview_polyline']['points'])
-            pairwise_directions.append(OrderedDict(sorted(item2.items(), key=lambda t: t[0])))
+            print 'getting directions for x: ' + str(x) + ', y: ' + str(y)
+
+            # The Google directions API limits free use to 2500 queries per diem.
+            # We'll surpass that, so save the results for each query into files.
+            # Alternatively, we could use a key ring of API keys, but this way is a little easier.
+            # On the second day, the direction data shall be complete.
+            directionsFilename = '../data/directions/directions-' + x['name'] + '-' + y['name'] + '.dat'
+            if os.path.isfile(directionsFilename):
+                print '  loading directions from file...'
+                dirsDict = pickle.load(open(directionsFilename, "rb"))
+            else:
+                print '  querying gmaps...'
+                item2 = {}
+                item2['route'] = "{}:{}".format(x['name'], y['name'])
+                directions = gmaps.directions(x['latlong'], y['latlong'],
+                        mode="bicycling")
+                item2['turns'] = decode(directions[0]['overview_polyline']['points'])
+                dirsDict = OrderedDict(sorted(item2.items(), key=lambda t: t[0]))
+                pickle.dump(dirsDict, open(directionsFilename, "wb"))
+            pairwise_directions.append(dirsDict)
 
 with open('../data/pairwise_routes.json', 'w') as pr:
     pr.write(json.dumps(pairwise_directions))
