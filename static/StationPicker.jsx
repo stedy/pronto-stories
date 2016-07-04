@@ -54,10 +54,10 @@ var StationPicker = React.createClass({
   }
 });
 
-var StationForm = React.createClass({
+window.StationForm = React.createClass({
   componentDidMount: function () {
     registerTypeaheads();
-    markerClickHandler = function (name) {
+    window.markerClickHandler = function (name) {
       if (currentPicker !== undefined) {
         currentPicker.select(name);
       }
@@ -75,8 +75,3 @@ var StationForm = React.createClass({
   }
 });
 
-var actionUrl = $('#hidden_get_map_link').attr("href");
-ReactDOM.render(
-  <StationForm action={actionUrl} />,
-  document.getElementById('stationPickerPlaceholder')
-);
