@@ -8,6 +8,12 @@
   <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
   <script src="http://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.16/browser.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
+  <script type="text/babel" src="StationPicker.jsx"></script>
+  <script type="text/babel" src="Map.jsx"></script>
+  <script type="text/babel" src="mountMap.jsx"></script>
   <script src={{ url_for('static', filename='stations.js') }}></script>
     <meta charset='utf-8' />
     <link rel='stylesheet' href='http://cdn.leafletjs.com/leaflet-0.7/leaflet.css' />
@@ -43,6 +49,7 @@
 
 <body>
   <div id='demo' class='col-xs-5'>
+    <div id="stationPickerPlaceholder"></div>
     <p>
     {% for entry in entries %}
     <u>Trip start:</u></br>
@@ -55,158 +62,14 @@
     <u>Distance:</u> {{ entry.distance|round(2, 'floor') }} miles</br>
     <u>Average travel time:</u> {{ entry.minutes }}m {{ entry.seconds|round(0, 'floor') }}s</br>
     <u>Fastest travel time:</u> {{ entry.min_minutes }}m {{ entry.min_seconds }}s
+    <a id="hidden_route" href="{{ entry.route }}"></a>
+    <a id="hidden_route_url" href="{{ url_for('static', filename='') }}route{{ entry.route }}.geojson"></a>
+    {% endfor %}
     </p>
     <b>
-      <p>
-      Search again:
-        <form action="{{ url_for('get_map') }}" method=post class=addstudy>
-            <br>
-
-            <td><div id="start-stations">
-                    <input class="typeahead" type="text" placeholder="Starting Station" name=start></td></tr></div>
-              <td><div id="end-stations">
-                      <input class="typeahead" type="text" placeholder="Ending Station" name=end></td></tr></div>
-                </p>
-
-                <td><input class="btn btn-default" type=submit value="Map it!">
-                </form>
 </div>
 
-<div id='map' class='col-xs-6' style="width: 800px; height: 900px"></div>
-<script type='text/javascript'>
-
-L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6rBzTCw';
-    map = L.mapbox.map('map', 'mapbox.streets')
-          .setView([47.6161447,-122.3285673], 13);
-    var svg = d3.select(map.getPanes().overlayPane).append('svg');
-    var g = svg.append('g').attr('class', 'leaflet-zoom-hide');
-    var route = '{{ entry.route }}'
-    var infile = 'route'+route+'.geojson'
-    {% endfor %}
-d3.json("http://prontostories.com/static/" + infile, function(collection) {
-
-    var featuresdata = collection.features.filter(function(d) {
-      return d.properties.id == route
-        })
-
-        var transform = d3.geo.transform({
-            point: projectPoint
-        });
-
-        var d3path = d3.geo.path().projection(transform);
-
-        var toLine = d3.svg.line()
-            .interpolate('linear')
-            .x(function(d) {
-                return applyLatLngToLayer(d).x
-            })
-            .y(function(d) {
-                return applyLatLngToLayer(d).y
-            });
-
-        var ptFeatures = g.selectAll('circle')
-            .data(featuresdata)
-            .enter()
-            .append('circle')
-            .attr('class', 'waypoints');
-
-        var linePath = g.selectAll('.lineConnect')
-            .data([featuresdata])
-            .enter()
-            .append('path')
-            .attr('class', 'lineConnect');
-
-        var marker = g.append('circle')
-            .attr('id', 'marker')
-            .attr('class', 'travelMarker');
-
-        var originANDdestination = [featuresdata[0], featuresdata[featuresdata.length - 1]]
-
-        var begend = g.selectAll('.drinks')
-            .data(originANDdestination)
-            .enter()
-            .append('circle', '.drinks')
-            .style('opacity', '1');
-
-        map.on('viewreset', reset);
-
-        reset();
-        transition();
-
-        function reset() {
-            var bounds = d3path.bounds(collection),
-                topLeft = bounds[0],
-                bottomRight = bounds[1];
-
-            begend.attr('transform',
-                function(d) {
-                    return 'translate(' +
-                        applyLatLngToLayer(d).x + ',' +
-                        applyLatLngToLayer(d).y + ')';
-                });
-
-            ptFeatures.attr('transform',
-                function(d) {
-                    return 'translate(' +
-                        applyLatLngToLayer(d).x + ',' +
-                        applyLatLngToLayer(d).y + ')';
-                });
-
-            marker.attr('transform',
-                function() {
-                    var y = featuresdata[0].geometry.coordinates[0]
-                    var x = featuresdata[0].geometry.coordinates[1]
-                    return 'translate(' +
-                        map.latLngToLayerPoint(new L.LatLng(y, x)).x + ',' +
-                        map.latLngToLayerPoint(new L.LatLng(y, x)).y + ')';
-                });
-
-
-            svg.attr('width', bottomRight[0] - topLeft[0] + 120)
-                .attr('height', bottomRight[1] - topLeft[1] + 120)
-                .style('left', topLeft[0] - 50 + 'px')
-                .style('top', topLeft[1] - 50 + 'px');
-
-            linePath.attr('d', toLine)
-            g.attr('transform', 'translate(' + (-topLeft[0] + 50) + ',' + (-topLeft[1] + 50) + ')');
-
-        } // end reset
-
-        function transition() {
-            linePath.transition()
-                .duration(7500)
-                .attrTween('stroke-dasharray', tweenDash)
-        }
-
-        function tweenDash() {
-            return function(t) {
-                //total length of path (single value)
-                var l = linePath.node().getTotalLength(); 
-                interpolate = d3.interpolateString('0,' + l, l + ',' + l);
-                var marker = d3.select('#marker');
-                var p = linePath.node().getPointAtLength(t * l);
-
-                //Move the marker to that point
-                marker.attr('transform', 'translate(' + p.x + ',' + p.y + ')'); //move marker
-                console.log(interpolate(t))
-                return interpolate(t);
-            }
-        }
-
-        function projectPoint(x, y) {
-            var point = map.latLngToLayerPoint(new L.LatLng(x,y));
-            this.stream.point(point.x, point.y);
-        } //end projectPoint
-    });
-
-    function applyLatLngToLayer(d) {
-        var y = d.geometry.coordinates[0]
-        var x = d.geometry.coordinates[1]
-        return map.latLngToLayerPoint(new L.LatLng(y, x))
-
-
-    }
-    </script>
+<div id="mapPlaceholder"></div>
   </div>
   </body>
 
