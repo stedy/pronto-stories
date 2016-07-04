@@ -83,7 +83,7 @@ L.mapbox.accessToken = 'pk.eyJ1Ijoic3RlZHkiLCJhIjoiUU9kOC1xcyJ9.xmKXVS0kLIjF5hR6
     var route = '{{ entry.route }}'
     var infile = 'route'+route+'.geojson'
     {% endfor %}
-d3.json("http://prontostories.com/static/" + infile, function(collection) {
+d3.json("{{ url_for('static', filename='') }}" + infile, function(collection) {
 
     var featuresdata = collection.features.filter(function(d) {
       return d.properties.id == route
@@ -181,7 +181,7 @@ d3.json("http://prontostories.com/static/" + infile, function(collection) {
         function tweenDash() {
             return function(t) {
                 //total length of path (single value)
-                var l = linePath.node().getTotalLength(); 
+                var l = linePath.node().getTotalLength();
                 interpolate = d3.interpolateString('0,' + l, l + ',' + l);
                 var marker = d3.select('#marker');
                 var p = linePath.node().getPointAtLength(t * l);
