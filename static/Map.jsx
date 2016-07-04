@@ -83,11 +83,6 @@ window.Map = React.createClass({
 
       var originANDdestination = [featuresdata[0], featuresdata[featuresdata.length - 1]]
 
-      var begend = g.selectAll('.drinks')
-          .data(originANDdestination)
-          .enter()
-          .append('circle', '.drinks')
-          .style('opacity', '1');
 
       that.map.on('viewreset', reset);
 
@@ -98,13 +93,6 @@ window.Map = React.createClass({
           var bounds = d3path.bounds(collection),
               topLeft = bounds[0],
               bottomRight = bounds[1];
-
-          begend.attr('transform',
-              function(d) {
-                  return 'translate(' +
-                      applyLatLngToLayer(d).x + ',' +
-                      applyLatLngToLayer(d).y + ')';
-              });
 
           ptFeatures.attr('transform',
               function(d) {

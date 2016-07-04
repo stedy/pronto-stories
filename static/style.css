@@ -15,11 +15,6 @@ path {
   opacity: 0;
 }
 
-.drinks {
-  stroke: black;
-  fill: red;
-}
-
 .lineConnect {
   fill: none;
   stroke: black;
