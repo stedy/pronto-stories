@@ -73,9 +73,11 @@ for x in station_data:
             # We'll surpass that, so save the results for each query into files.
             # Alternatively, we could use a key ring of API keys, but this way is a little easier.
             # On the second day, the direction data shall be complete.
-            directionsFilename = '../data/directions/directions-' + x['name'] + '-' + y['name'] + '.dat'
-            if os.path.isfile(directionsFilename):
-                print '  loading directions from file...'
+            filenameSuffix = x['name'] + '-' + y['name'] + '.dat'
+            directionsFilename = '../data/directions/directions-' + filenameSuffix
+            elevationsFilename = '../data/directions/elevations-' + filenameSuffix
+            if os.path.isfile(directionsFilename) and os.path.isfile(elevationsFilename):
+                print '  loading directions and elevations from file...'
                 dirsDict = pickle.load(open(directionsFilename, "rb"))
             else:
                 print '  querying gmaps...'
@@ -83,9 +85,32 @@ for x in station_data:
                 item2['route'] = "{}:{}".format(x['name'], y['name'])
                 directions = gmaps.directions(x['latlong'], y['latlong'],
                         mode="bicycling")
-                item2['turns'] = decode(directions[0]['overview_polyline']['points'])
+                path = decode(directions[0]['overview_polyline']['points'])
+
+                item2['turns'] = path
                 dirsDict = OrderedDict(sorted(item2.items(), key=lambda t: t[0]))
                 pickle.dump(dirsDict, open(directionsFilename, "wb"))
+
+                elevationsDict = {}
+                samples = 10
+                elevationsDict['samples'] = samples
+                elevations = []
+
+                for i in range(0, len(path) - 2):
+                    pathSegment = path[i:i+2]
+
+                    transformedPathSegment = []
+                    # flip lat and long, since they are in the wrong order for the elevations API otherwise
+                    for point in pathSegment:
+                        transformedPathSegment.append((point[1], point[0]))
+
+                    segmentElevations = gmaps.elevation_along_path(transformedPathSegment, samples)
+
+                    elevations.append(segmentElevations)
+
+                elevationsDict['elevations'] = elevations
+                pickle.dump(elevationsDict, open(elevationsFilename, "wb"))
+
             pairwise_directions.append(dirsDict)
 
 with open('../data/pairwise_routes.json', 'w') as pr:
