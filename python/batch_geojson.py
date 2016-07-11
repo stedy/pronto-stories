@@ -18,3 +18,11 @@ with open("../data/pairwise_routes.json", 'rb') as pr:
             at.write('{{ "type": "Feature", "properties": {{  "id": "{id}", "name":"Along route"}}, "geometry": {{ "type": "Point", "coordinates": {latlong} }} }}\n'.format(id=route, latlong=fc[-1]))
             at.write(']}')
 
+with open("../data/pairwise_elevations.json", 'rb') as pr:
+    original = json.load(pr)
+    for x in original:
+        elevations = x['elevations']
+        route = x['route'].replace(":", "_")
+        outfile = "elevations{}.geojson".format(route)
+        with open(outfile, 'w') as at:
+            at.write(json.dumps(elevations))
