@@ -1,4 +1,5 @@
 import json
+import pickle
 
 with open("../data/pairwise_routes.json", 'rb') as pr:
     original = json.load(pr)
@@ -24,5 +25,5 @@ with open("../data/pairwise_elevations.json", 'rb') as pr:
         elevations = x['elevations']
         route = x['route'].replace(":", "_")
         outfile = "elevations{}.geojson".format(route)
-        with open(outfile, 'w') as at:
-            at.write(json.dumps(elevations))
+        pickle.dump(elevations, open(outfile, "wb"))
+        print outfile

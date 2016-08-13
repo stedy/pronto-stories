@@ -55,17 +55,18 @@
     <p>
     {% for entry in entries %}
     <u>Trip start:</u></br>
-    {{ entry.station_start }}</br>
+    {{ entry.row.station_start }}</br>
     <u>Trip ending at:</u></br>
-    {{ entry.station_end }}</br>
-    <u>Total number of riders:</u> {{ entry.ntrips }}</br>
-    <u>Rank out of all possible routes:</u> {{ entry.routerank }}</br>
-    <u>Change in elevation:</u> {{ entry.delta_elevation|round(2, 'floor') }} feet</br>
-    <u>Distance:</u> {{ entry.distance|round(2, 'floor') }} miles</br>
-    <u>Average travel time:</u> {{ entry.minutes }}m {{ entry.seconds|round(0, 'floor') }}s</br>
-    <u>Fastest travel time:</u> {{ entry.min_minutes }}m {{ entry.min_seconds }}s
-    <a id="hidden_route" href="{{ entry.route }}"></a>
-    <a id="hidden_route_url" href="{{ url_for('static', filename='') }}route{{ entry.route }}.geojson"></a>
+    {{ entry.row.station_end }}</br>
+    <u>Total number of riders:</u> {{ entry.row.ntrips }}</br>
+    <u>Rank out of all possible routes:</u> {{ entry.row.routerank }}</br>
+    <u>Change in elevation:</u> {{ entry.row.delta_elevation|round(2, 'floor') }} feet</br>
+    <u>Distance:</u> {{ entry.row.distance|round(2, 'floor') }} miles</br>
+    <u>Average travel time:</u> {{ entry.row.minutes }}m {{ entry.row.seconds|round(0, 'floor') }}s</br>
+    <u>Fastest travel time:</u> {{ entry.row.min_minutes }}m {{ entry.row.min_seconds }}s
+    <a id="hidden_route" href="{{ entry.row.route }}"></a>
+    <a id="hidden_route_url" href="{{ url_for('static', filename='') }}route{{ entry.row.route }}.geojson"></a>
+    <a id="hidden_elevations" href="{{ entry.elevations }}"></a>
     {% endfor %}
     </p>
     <b>

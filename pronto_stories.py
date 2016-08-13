@@ -1,5 +1,6 @@
 import datetime as dt
 import json
+import pickle
 import os
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, g, redirect, url_for,\
@@ -52,7 +53,15 @@ def get_map():
                         delta_elevation, distance
                         FROM Trips WHERE station_start = ? AND station_end = ?""",
             [request.form['start'], request.form['end']])
-    entries = cur.fetchall()
+    rows = cur.fetchall()
+    entries = []
+    for row in rows:
+        filename = "python/elevations" + row['route'] + ".geojson"
+        elevations = pickle.load(open(filename, "rb"))
+        entry = {}
+        entry['row'] = row
+        entry['elevations'] = elevations
+        entries.append(entry)
     if request.form['start'] == "":
         error = "You must select a start and stop station"
         return render_template('main.html', error = error)

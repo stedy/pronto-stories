@@ -149,7 +149,6 @@ window.Map = React.createClass({
 
               //Move the marker to that point
               marker.attr('transform', 'translate(' + p.x + ',' + p.y + ')'); //move marker
-              console.log(interpolate(t))
               return interpolate(t);
           }
       }
