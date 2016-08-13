@@ -10,8 +10,9 @@ ReactDOM.render(
   document.getElementById('stationPickerPlaceholder')
 );
 
+var elevations = $('#hidden_elevations').attr("href");
 ReactDOM.render(
-  <Elevations />,
+  <Elevations elevations={elevations} />,
   document.getElementById('elevationsPlaceholder')
 );
 

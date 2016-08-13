@@ -8,7 +8,8 @@ import math
 import sys
 
 # https://console.developers.google.com/apis/credentials
-API = ''
+API = sys.argv[1]
+#API = ''
 gmaps = googlemaps.Client(API)
 
 def decode(point_str):
